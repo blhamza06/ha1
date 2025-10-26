@@ -90,5 +90,56 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
-}
 
+
+//TODO hier weitere Tests erstellen
+
+    @Test
+    @DisplayName("should display result when subtracting two positive numbers")
+    void testPositiveSubtraction() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(5);
+        calc.pressEqualsKey();
+
+        String expected = "3";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("should not reset latest operation when pressing C only once")
+    void testSingleClearKeyShouldNotResetOperation() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(2);
+        calc.pressClearKey(); // einmal C drücken
+
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();
+
+        String expected = "11";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("should do nothing when equals is pressed without operation")
+    void testEqualsWithoutOperationFails() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(7);
+        calc.pressEqualsKey(); // ohne Operation
+
+        String expected = "7";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+}
