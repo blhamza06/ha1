@@ -45,10 +45,16 @@ public class Calculator {
      * im Ursprungszustand ist.
      */
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+        if (!screen.equals("0")) {
+            // Erstes Drücken: nur Bildschirm löschen
+            screen = "0";
+        } else {
+            // Zweites Drücken: alles zurücksetzen
+            latestOperation = "";
+            latestValue = 0.0;
+        }
     }
+
 
     /**
      * Empfängt den Wert einer gedrückten binären Operationstaste, also eine der vier Operationen
@@ -118,6 +124,11 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        if (latestOperation.isEmpty()) {
+            // keine Operation gesetzt → nichts tun
+            return;
+        }
+
         var result = switch(latestOperation) {
             case "+" -> latestValue + Double.parseDouble(screen);
             case "-" -> latestValue - Double.parseDouble(screen);
